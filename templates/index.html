@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Train Image</title>
+  </head>
+  <body>
+    <p>Make sure you label your images with respect to the person present in the image, Must Upload more than 2 images</p>
+    <form action = "/upload" method = "post" enctype="multipart/form-data">  
+        <input type="file" name="images" class="file-upload" multiple>
+        <input type = "submit" value="Upload">
+    </form>
+  </body>
+</html>
+
+<script>
+    $('.file-upload').file_upload();
+</script>
