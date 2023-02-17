@@ -1,6 +1,6 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, make_response, jsonify
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import FileStorage
+from config import config
 import numpy as np
 import face_database
 import pickle
@@ -83,9 +83,21 @@ def index():
 def upload():
 
     if request.method == 'POST':
+        if 'images' not in request.files:
+            response = make_response(jsonify({
+                'error': "You can only upload image"
+            }), config.HTTP_500_INTERNAL_SERVER_ERROR)
+            return response
         files = request.files.getlist("images")
         try:
             for file in files:
+                fileExt = file.filename.split('.')[1].lower()
+                if fileExt not in ['jpg','jpeg', 'png']:
+                    response = make_response(jsonify({
+                        'error': "These are the allowed image extension - jpg, jpeg, png"
+                    }), config.HTTP_400_BAD_REQUEST)
+                    return response
+                    
                 image_bytes = file.read()
                 image = np.array(Image.open(io.BytesIO(image_bytes)).convert('RGB'))
                 # Convert RGB to BGR 
