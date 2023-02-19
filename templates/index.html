@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="./../static/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <title>Train Image</title>
 </head>
 
@@ -28,9 +29,11 @@
           image, Must
           Upload more than 2 images</p>
         <form action="/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="images"
+          <input type="file" name="images" accept="image/jpeg, image/png, image/jpg" onclick="selectImages()"
             class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border text-center"
-            multiple /><br />
+            multiple />
+          <output></output>
+          <br />
           <div class="flex justify-center">
             <input type="submit" value="train model"
               class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center" />
@@ -51,5 +54,49 @@
 </html>
 
 <script>
-  $('.file-upload').file_upload();
+  const file_upload = document.querySelector('.file-upload');
+  const output = document.querySelector('output');
+  const imagesArray = [];
+
+
+
+
+  const selectImages = () => {
+    file_upload.addEventListener("change", (e) => {
+
+      const files = file_upload.files
+      for (let i = 0; i < files.length; i++) {
+        // console.log(files[i])
+        imagesArray.push(files[i])
+      }
+      displayImages();
+      // console.log(imagesArrray)
+
+    })
+  }
+
+  const displayImages = () => {
+    let images = '';
+    imagesArray.forEach((image, index) => {
+      images += `<div class="image">
+        <img src="${URL.createObjectURL(image)}" alt="image">
+        <span onclick="deleteImage(${index})">&times;</span>
+        </div>`
+    })
+    output.innerHTML = images
+    // console.log(imagesArrray)
+  }
+
+  const deleteImage = (index) => {
+    imagesArray.splice(index, 1);
+    displayImages();
+  }
+
+  setTimeout(Swal.fire(
+    'Good job!',
+    'You clicked the button!',
+    'success'
+  ), 2000)
+
+  // $('.file-upload').file_upload();
 </script>
