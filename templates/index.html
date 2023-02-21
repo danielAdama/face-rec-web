@@ -63,15 +63,11 @@
 
   const selectImages = () => {
     file_upload.addEventListener("change", (e) => {
-
       const files = file_upload.files
       for (let i = 0; i < files.length; i++) {
-        // console.log(files[i])
         imagesArray.push(files[i])
       }
       displayImages();
-      // console.log(imagesArrray)
-
     })
   }
 
@@ -84,7 +80,7 @@
         </div>`
     })
     output.innerHTML = images
-    // console.log(imagesArrray)
+
   }
 
   const deleteImage = (index) => {
