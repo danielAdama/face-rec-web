@@ -27,35 +27,30 @@
           person present
           in the
           image, Must
-          <<<<<<< HEAD Upload more than 2 images</p>
-            <form action="/upload" method="post" enctype="multipart/form-data">
-              <input type="file" name="images" accept="image/jpeg, image/png, image/jpg"
-                onclick="selectImages()"=======upload more than 2 images</p>
+          Upload more than 2 images</p>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" id="file-upload" class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border
+            text-center" onclick="selectImages()" accept="image/png, image/jpg" multiple />
+          <output></output>
+          <br />
+          <div class="flex justify-center">
+            <button id="train-model"
+              class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+              Train Model
+            </button>
+          </div>
+        </form>
 
-              <form>
-                <input type="file" id="file-upload">>>>>>> 81d50f9051415dd30143ffc5824d2f0b429f9ba9
-                class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border
-                text-center"
-                multiple />
-                <output></output>
-                <br />
-                <div class="flex justify-center">
-                  <button id="train-model"
-                    class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
-                    Train Model
-                  </button>
-                </div>
-              </form>
-              <div class="flex justify-center">
-                <button id="verify-face"
-                  class="text-[#2063ED] bg-white py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
-                  Verify Face
-                </button>
-              </div>
+      </div>
+      <div class="flex justify-center">
+        <button id="verify-face"
+          class="text-[#2063ED] bg-white py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+          Verify Face
+        </button>
       </div>
     </div>
     <div class="md:w-2/4 bg-[#2063EE] flex">
-      <img src="../assets/robot.svg" alt="" class="max-w-full h-auto w-full" />
+      <img src="../assets/hero.svg" alt="" class="max-w-full h-auto w-full" />
     </div>
   </div>
 </body>
