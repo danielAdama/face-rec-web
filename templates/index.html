@@ -127,6 +127,13 @@
         }
       );
       const jsn = await resp.json();
+      if (jsn) {
+        Swal.fire(
+          'Successful!',
+          'Your image has been successfully uploaded!',
+          'success'
+        )
+      }
       console.log(jsn);
     }
     catch (err) {
