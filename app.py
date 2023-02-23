@@ -33,8 +33,9 @@ if os.path.exists(os.path.join(os.getcwd(),'encodings.pickle')):
     with open('encodings.pickle', 'rb+') as f:
         app.config['data'] = pickle.load(f)
 
+webcam = cv2.VideoCapture(0)
+
 def video_stream():
-    webcam = cv2.VideoCapture(0)
     time.sleep(0.02)
     try:
         if (webcam.isOpened() == False):
@@ -96,6 +97,10 @@ def video_stream():
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/live')
+def live():
+    return render_template("result.html")
 
 @app.route('/upload', methods = ['POST'])
 def upload():
