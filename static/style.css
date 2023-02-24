@@ -1,16 +1,17 @@
 output {
   width: 100%;
-  min-height: 150px;
+  height: 150px;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 15px;
   position: relative;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 output .image {
-  height: 150px;
+  height: 55px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   overflow: hidden;
