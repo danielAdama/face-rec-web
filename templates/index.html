@@ -92,11 +92,11 @@
     displayImages();
   }
 
-  setTimeout(Swal.fire(
-    'Good job!',
-    'You clicked the button!',
-    'success'
-  ), 2000)
+  // setTimeout(Swal.fire(
+  //   'Good job!',
+  //   'You clicked the button!',
+  //   'success'
+  // ), 2000)
 
 
   const inputFace = document.getElementById("verify-face").addEventListener('click', (e) => {
@@ -129,13 +129,21 @@
         }
       );
       const jsn = await resp.json();
-      if (jsn) {
+      if (jsn.BaseResponse.Status) {
         Swal.fire(
           'Successful!',
-          'Your image has been successfully uploaded!',
+          'Your image has been trained successfully!',
           'success'
         )
       }
+      // if (!jsn.BaseResponse.Status) {
+      //   Swal.fire(
+      //     'Successful!',
+      //     'Your image has been trained successfully!',
+      //     'error'
+      //   )
+      // }
+      
       console.log(jsn);
     }
     catch (err) {
