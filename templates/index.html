@@ -28,9 +28,11 @@
           in the
           image, Must
           Upload more than 2 images</p>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-          <input type="file" id="file-upload" class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border
-            text-center" onclick="selectImages()" accept="image/png, image/jpg" multiple />
+        <form class="flex flex-col justify-center px-6">
+          <div class="w-full flex justify-center">
+            <input type="file" id="file-upload" class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border
+                text-center" onclick="selectImages()" accept="image/png, image/jpg" multiple />
+          </div>
           <output></output>
           <br />
           <div class="flex justify-center">
