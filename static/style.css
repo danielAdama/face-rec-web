@@ -7,7 +7,7 @@ output {
   gap: 15px;
   position: relative;
   border-radius: 5px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 output .image {
