@@ -159,7 +159,11 @@
       console.log(jsn);
     }
     catch (err) {
-      console.log(err);
+      Swal.fire(
+          'Ooops something went wrong!',
+          jsn.BaseResponse.Message,
+          'error'
+        )
     }
   };
 </script>
