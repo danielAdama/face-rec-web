@@ -132,8 +132,20 @@
       if (jsn.BaseResponse.Status) {
         Swal.fire(
           'Successful!',
-          'Your image has been trained successfully!',
+          jsn.BaseResponse.Message,
           'success'
+        )
+      } else if (!jsn.BaseResponse.Status) {
+        Swal.fire(
+          'Failed!',
+          jsn.BaseResponse.Message,
+          'error'
+        )
+      } else {
+        Swal.fire(
+          'Ooops something went wrong!',
+          jsn.BaseResponse.Message,
+          'error'
         )
       }
       // if (!jsn.BaseResponse.Status) {
@@ -143,7 +155,7 @@
       //     'error'
       //   )
       // }
-      
+
       console.log(jsn);
     }
     catch (err) {
