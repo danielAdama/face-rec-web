@@ -67,11 +67,25 @@
 
   const selectImages = () => {
     file_upload.addEventListener("change", (e) => {
-      const files = file_upload.files
+      const files = file_upload.files;
+      // console.log(files[0].name)
       for (let i = 0; i < files.length; i++) {
+        console.log(files)
+        // if (imagesArray.length > 0) {
+        //   for (let j = 0; j < imagesArray.length; j++) {
+        //     if (files[i].name !== imagesArray[j].name) {
+        //       imagesArray.push(files[i])
+        //     }
+        //   }
+        // } else {
+
         imagesArray.push(files[i])
+
+
+        // }
       }
       displayImages();
+      console.log(imagesArray)
     })
   }
 
