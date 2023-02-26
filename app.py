@@ -1,5 +1,4 @@
 from flask import Flask, render_template, Response, request, make_response, jsonify
-#from flask_cors import cors
 from werkzeug.utils import secure_filename
 from config import config
 import numpy as np
@@ -177,7 +176,7 @@ def upload():
                         }
                     }), config.HTTP_200_OK)
         except Exception as ex:
-            _logger.warning("APPLICATION ERROR while recognizing face")
+            _logger.warning(f"APPLICATION ERROR while recognizing face - {ex}")
             return make_response(jsonify({
                 "BaseResponse":{
                             "Status":False,
