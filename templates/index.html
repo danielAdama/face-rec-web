@@ -29,11 +29,26 @@
           image, Must
           Upload more than 2 images</p>
         <form class="flex flex-col justify-center px-6">
-          <div class="w-full flex justify-center">
-            <input type="file" id="file-upload" class="file-upload text-white bg-[#2063ED] py-4 px-4 lg:px-8 shadow-xl mt-4 rounded-full border
-                text-center" onclick="selectImages()" accept="image/png, image/jpg" multiple />
+          <div class="container">
+            <div class="flex justify-center">
+              <!-- Input element to choose images -->
+              <input type="file" id="select-image" multiple accept="image/png,image/jpg">
+              <label for="select-image">
+                <?xml version="1.0" ?><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M1344 1472q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z" />
+                </svg>
+                Choose Images
+              </label>
+            </div>
+            <div class="preview_image">
+              <!-- It will show the total number of files selected -->
+              <p><span id="total-images">0</span> File(s) Selected</p>
+
+              <!-- All images will display inside this div -->
+              <div id="images"></div>
+            </div>
           </div>
-          <output></output>
           <br />
           <div class="flex justify-center">
             <button id="train-model"
@@ -60,41 +75,47 @@
 </html>
 
 <script>
-  const file_upload = document.querySelector('.file-upload');
-  const output = document.querySelector('output');
-  output.style.display = "none";
-  const imagesArray = [];
+  const fileInput = document.getElementById('select-image');
+  const images = document.getElementById('images');
+  const totalImages = document.getElementById('total-images');
 
 
-  const selectImages = () => {
-    file_upload.addEventListener("change", (e) => {
-      const files = file_upload.files;
-      // console.log(files[0].name)
-      for (let i = 0; i < files.length; i++) {
-        imagesArray.push(files[i])
+  // Listen to the change event on the <input> element
+  fileInput.addEventListener('change', (event) => {
+    // Get the selected image file
+    const imageFiles = event.target.files;
+
+    // Show the number of images selected
+    totalImages.innerText = imageFiles.length;
+
+    // Empty the images div
+    images.innerHTML = '';
+
+    if (imageFiles.length > 0) {
+      // Loop through all the selected images
+      for (const imageFile of imageFiles) {
+        const reader = new FileReader();
+
+        // Convert each image file to a string
+        reader.readAsDataURL(imageFile);
+
+        // FileReader will emit the load event when the data URL is ready
+        // Access the string using reader.result inside the callback function
+        reader.addEventListener('load', () => {
+          // Create new <img> element and add it to the DOM
+          images.innerHTML += `
+                <div class="image_box">
+                    <img src='${reader.result}'>
+                    <span class='image_name'>${imageFile.name}</span>
+                </div>
+            `;
+        });
       }
-      displayImages();
-      console.log(imagesArray)
-    })
-  }
-
-  const displayImages = () => {
-    let images = '';
-    imagesArray.forEach((image, index) => {
-      images += `<div class="image">
-        <img src="${URL.createObjectURL(image)}" alt="image">
-        <span onclick="deleteImage(${index})">&times;</span>
-        </div>`
-    })
-    output.innerHTML = images
-    output.style.display = "flex";
-  }
-
-  const deleteImage = (index) => {
-    imagesArray.splice(index, 1);
-    displayImages();
-  }
-
+    } else {
+      // Empty the images div
+      images.innerHTML = '';
+    }
+  });
   // setTimeout(Swal.fire(
   //   'Good job!',
   //   'You clicked the button!',
@@ -116,7 +137,7 @@
     try {
       const formData = new FormData();
 
-      for (const file of file_upload.files) {
+      for (const file of fileInput.files) {
         formData.append("image", file);
       }
       // for (const item of formData) {
