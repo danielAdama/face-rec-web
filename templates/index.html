@@ -67,11 +67,13 @@
 
   const selectImages = () => {
     file_upload.addEventListener("change", (e) => {
-      const files = file_upload.files
+      const files = file_upload.files;
+      // console.log(files[0].name)
       for (let i = 0; i < files.length; i++) {
         imagesArray.push(files[i])
       }
       displayImages();
+      console.log(imagesArray)
     })
   }
 
@@ -160,10 +162,10 @@
     }
     catch (err) {
       Swal.fire(
-          'Ooops something went wrong!',
-          jsn.BaseResponse.Message,
-          'error'
-        )
+        'Ooops something went wrong!',
+        jsn.BaseResponse.Message,
+        'error'
+      )
     }
   };
 </script>
