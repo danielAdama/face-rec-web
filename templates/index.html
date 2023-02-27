@@ -62,6 +62,7 @@
 <script>
   const file_upload = document.querySelector('.file-upload');
   const output = document.querySelector('output');
+  output.style.display = "none";
   const imagesArray = [];
 
 
@@ -86,7 +87,7 @@
         </div>`
     })
     output.innerHTML = images
-
+    output.style.display = "flex";
   }
 
   const deleteImage = (index) => {
