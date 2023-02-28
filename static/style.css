@@ -11,9 +11,9 @@ output {
   border-radius: 5px;
   overflow-y: scroll;
 }
-/* output::-webkit-scrollbar { */
-/* display: none; for Chrome, Safari, and Opera */
-/* } */
+output::-webkit-scrollbar {
+  display: none; /*for Chrome, Safari, and Opera */
+}
 
 output .image {
   height: 55px;
