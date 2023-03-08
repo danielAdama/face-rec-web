@@ -14,7 +14,7 @@
   <div class="md:flex md:flex-wrap h-screen">
     <div class="bg-white md:w-2/4 pb-20 md:pb-10">
       <div class="p-6">
-        <img src="../assets/robot.svg" alt="" class="w-12" />
+        <img src="{{ url_for('static', filename='robot.svg') }}" alt="SVG Image" class="w-12">
       </div>
       <div class="flex flex-col items-center justify-center pt-36">
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">
@@ -30,7 +30,7 @@
           Upload more than 2 images</p>
         <form class="flex flex-col justify-center px-6">
           <div class="container">
-            <div class="flex justify-center">
+            <div class="flex justify-center index">
               <!-- Input element to choose images -->
               <input type="file" id="select-image" multiple accept="image/png,image/jpg">
               <label for="select-image">
@@ -67,13 +67,10 @@
       </div>
     </div>
     <div class="md:w-2/4 bg-[#2063EE] flex">
-      <img src="../assets/hero.svg" alt="" class="max-w-full h-auto w-full" />
+      <img src="{{ url_for('static', filename='hero.svg') }}" alt="SVG Image" class="max-w-full h-auto w-full">
     </div>
   </div>
 </body>
-
-</html>
-
 <script>
   const fileInput = document.getElementById('select-image');
   const images = document.getElementById('images');
@@ -172,15 +169,6 @@
           'error'
         )
       }
-      // if (!jsn.BaseResponse.Status) {
-      //   Swal.fire(
-      //     'Successful!',
-      //     'Your image has been trained successfully!',
-      //     'error'
-      //   )
-      // }
-
-      console.log(jsn);
     }
     catch (err) {
       Swal.fire(
@@ -191,3 +179,5 @@
     }
   };
 </script>
+
+</html>
