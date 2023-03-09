@@ -1,46 +1,80 @@
-output {
+* {
+  border: 0.5px solid red;
+}
+.container {
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+#select-image {
+  display: none;
+}
+
+.index label {
+  display: flex;
+  align-items: center;
+  background: #2063ed;
+  padding: 18px 30px;
+  color: #ffffff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.index label svg {
+  fill: #ffffff;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.preview_image p {
+  text-align: center;
+}
+
+#images {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-y: scroll;
+  max-height: 150px;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  width: 100%;
-  height: 150px;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 15px;
-  position: relative;
-  border-radius: 5px;
-  overflow-y: scroll;
 }
-output::-webkit-scrollbar {
+
+#images::-webkit-scrollbar {
   display: none; /*for Chrome, Safari, and Opera */
 }
 
-output .image {
-  height: 55px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  position: relative;
+.image_box {
+  width: 45%;
 }
 
-output .image img {
-  height: 100%;
+img {
   width: 100%;
 }
 
-output .image span {
-  position: absolute;
-  top: -4px;
-  right: 4px;
-  cursor: pointer;
-  font-size: 22px;
-  color: white;
+.image_name {
+  display: block;
+  font-size: 14px;
+  text-align: center;
 }
 
-output .image span:hover {
-  opacity: 0.8;
-}
-
-output .span--hidden {
-  visibility: hidden;
+@media (min-width: 768px) {
+  .container {
+    width: 550px;
+  }
 }
