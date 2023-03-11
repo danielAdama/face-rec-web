@@ -9,7 +9,7 @@ from config import config
 
 
 # Load the Face Encodings
-with open('encodings', 'rb') as f:
+with open('encodings.pickle', 'rb') as f:
     data = pickle.load(f)
 
 webcam = cv2.VideoCapture(config.VIDEO)
@@ -24,7 +24,7 @@ while True:
         # convert the input frame from BGR to RGB then resize it to have
         # a width of 500px (to speedup processing) 
         rgb = cv2.cvtColor(frame, config.COLOR)
-        rgb = imutils.resize(frame, 500)
+        rgb = imutils.resize(frame, 700)
         (h, w) = frame.shape[:2]
         r = w / rgb.shape[1]
         
