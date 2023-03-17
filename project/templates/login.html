@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="md:flex md:flex-wrap h-screen">
+    <div class="bg-white md:w-2/4 pb-20 md:pb-10">
+      <div class="flex flex-col items-center justify-center pt-36">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg text-start">
+          Login
+        </h1>
+        <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">Welcome back! please enter your details
+          .
+        </p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form action = '/login' method = 'post' class="flex flex-col justify-center px-6">
+          <label for="email" class="text-[#979DA5]">Email</label>
+          <input type="email" placeholder = 'johndoe@gmail.com' name="email" id="emailId" class="border-2 border-[#EBEAED] w-72 h-10 rounded mt-4 pl-2">
+          <br />
+          <label for="password" class="text-[#979DA5]">Password</label>
+          <input type="password" placeholder = 'Your Password' name="password" id="passwordId" class="border-2 border-[#EBEAED] w-72 h-10 rounded mt-4 pl-2">
+          <br />
+          <div class="flex justify-center">
+            <label class="checkbox">
+              <input type="checkbox" name="remember">
+              Remember me
+            </label>
+            <button id="signin"
+              class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="md:w-2/4 bg-[#2063EE] flex">
+      <img src="{{ url_for('static', filename='login.svg') }}" alt="SVG Image" class="max-w-full h-auto w-full">
+    </div>
+  </div>
+  <script>
+    emailVal = document.getElementById('emailId').value;
+    passwordVal = document.getElementById('passwordId').value;
+  </script>
+{% endblock %}

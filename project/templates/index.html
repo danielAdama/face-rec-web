@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Train Image</title>
+<div class="md:flex md:flex-wrap h-screen">
+  <div class="bg-white md:w-2/4 pb-20 md:pb-10">
+    <!-- <div class="p-6">
+      <img src="{{ url_for('static', filename='robot.svg') }}" alt="SVG Image" class="w-12">
+    </div> -->
+    <h2>
+      Welcome, {{ name }}!
+    </h2>
+    <div class="flex flex-col items-center justify-center pt-36">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">
+        FACE RECOGNITION
+      </h1>
+      <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">To Train model make sure you label your
+        images
+        with
+        respect to the
+        person present
+        in the
+        image followed by an underscore e.g Dan, Dan_1, Dan_2, Must
+        Upload more than 2 images</p>
+      <form class="flex flex-col justify-center px-6">
+        <div class="container">
+          <div class="flex justify-center index">
+            <!-- Input element to choose images -->
+            <input type="file" id="select-image" multiple>
+            <label for="select-image">
+              <?xml version="1.0" ?><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1344 1472q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z" />
+              </svg>
+              Choose Images
+            </label>
+          </div>
+          <div class="preview_image">
+            <!-- It will show the total number of files selected -->
+            <p><span id="total-images">0</span> File(s) Selected</p>
+
+            <!-- All images will display inside this div -->
+            <div id="images"></div>
+          </div>
+        </div>
+        <br />
+        <div class="flex justify-center">
+          <button id="train-model"
+            class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+            Train Model
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="flex justify-center">
+      <button id="verify-face"
+        class="text-[#2063ED] bg-white py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+        Verify Face
+      </button>
+    </div>
+  </div>
+  <div class="md:w-2/4 bg-[#2063EE] flex">
+    <img src="{{ url_for('static', filename='hero.svg') }}" alt="SVG Image" class="max-w-full h-auto w-full">
+  </div>
+</div>
+<script>
+  const fileInput = document.getElementById('select-image');
+  const images = document.getElementById('images');
+  const totalImages = document.getElementById('total-images');
+
+  // Listen to the change event on the <input> element
+  fileInput.addEventListener('change', (event) => {
+    // Get the selected image file
+    const imageFiles = event.target.files;
+
+    // Show the number of images selected
+    totalImages.innerText = imageFiles.length;
+
+    // Empty the images div
+    images.innerHTML = '';
+
+    if (imageFiles.length > 0) {
+      // Loop through all the selected images
+      for (const imageFile of imageFiles) {
+        const reader = new FileReader();
+
+        // Convert each image file to a string
+        reader.readAsDataURL(imageFile);
+
+        // FileReader will emit the load event when the data URL is ready
+        // Access the string using reader.result inside the callback function
+        reader.addEventListener('load', () => {
+          // Create new <img> element and add it to the DOM
+          images.innerHTML += `
+                <div class="image_box">
+                    <img src='${reader.result}'>
+                    <span class='image_name'>${imageFile.name}</span>
+                </div>
+            `;
+        });
+      }
+    } else {
+      // Empty the images div
+      images.innerHTML = '';
+    }
+  });
+
+
+  const inputFace = document.getElementById("verify-face").addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'http://127.0.0.1:5000/live';
+  });
+
+  document.getElementById("train-model").addEventListener("click", (e) => {
+    e.preventDefault();
+    sendFiles();
+  });
+
+  async function sendFiles() {
+    try {
+      const formData = new FormData();
+
+      for (const file of fileInput.files) {
+        formData.append("image", file);
+      }
+      for (const item of formData) {
+        console.log(item[0], item[1]);
+      }
+
+
+      const resp = await fetch(
+        "http://127.0.0.1:5000/upload",
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+      const jsn = await resp.json();
+      if (jsn.BaseResponse.Status) {
+        Swal.fire(
+          'Successful!',
+          jsn.BaseResponse.Message,
+          'success'
+        )
+      } else if (!jsn.BaseResponse.Status) {
+        Swal.fire(
+          'Failed!',
+          jsn.BaseResponse.Message,
+          'error'
+        )
+      } else {
+        Swal.fire(
+          'Ooops something went wrong!',
+          jsn.BaseResponse.Message,
+          'error'
+        )
+      }
+    }
+    catch (err) {
+      Swal.fire(
+        'Ooops something went wrong!',
+        jsn.BaseResponse.Message,
+        'error'
+      )
+    }
+  };
+</script>
+{% endblock %}
