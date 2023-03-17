@@ -1,44 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/static/style.css" />
-  <title>Live Stream</title>
-</head>
-
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8  offset-lg-2">
-        <div class="flex">
-          <div class="w-3/5">
-            <img src="{{ url_for('main.video_feed') }}" class="h-screen mx-auto d-block img-fluid hover-shadow" alt="">
-          </div>
-          <div class="text-center w-2/4 flex flex-col justify-center">
-            <h3 class="mt-5 text-center text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">Live
-              Streaming
-            </h3>
-            <div class="flex justify-center">
-              <button id="back_to_home"
-                class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
-                back to home
-              </button>
-            </div>
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8  offset-lg-2">
+      <div class="flex">
+        <div class="w-3/5">
+          <img src="{{ url_for('main.video_feed') }}" class="h-screen mx-auto d-block img-fluid hover-shadow" alt="">
+        </div>
+        <div class="text-center w-2/4 flex flex-col justify-center">
+          <h3 class="mt-5 text-center text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">Live
+            Streaming
+          </h3>
+          <div class="flex justify-center">
+            <button id="back_to_home"
+              class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+              back to home
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</body>
-
-</html>
-
+</div>
 <script>
   const inputFace = document.getElementById("back_to_home").addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = 'http://127.0.0.1:5000/';
   });
 </script>
+{% endblock %}
