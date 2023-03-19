@@ -42,3 +42,6 @@ def face_db(filePath):
             f.close()
     else:
         print('\nSuccessfully Appended Face(s) into the Database'+"..."*3)
+
+
+
