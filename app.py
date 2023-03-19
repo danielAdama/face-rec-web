@@ -7,7 +7,6 @@ import face_database
 import pickle
 from face_verification.face_verify import FaceRecognition
 import cv2
-import re
 import os
 import imutils
 import io
@@ -17,15 +16,15 @@ from config import config
 
 
 
+
 app = Flask(__name__)
-app.config['noMatchNames'] = []
-app.config['matchNames'] = []
-app.config['filenames'] = []
-app.config['images'] = []
-handle = "my-app"
 #cors(app)
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.NOTSET, datefmt='%d-%b-%y %H:%M:%S')
-_logger = logging.getLogger(handle)
+handle = "my-app"
+logger = logging.getLogger(handle)
+logger.setLevel(level=logging.DEBUG)
+consoleHandler = logging.StreamHandler()
+consoleHandler.setLevel(level=logging.DEBUG)
+logger.addHandler(consoleHandler)
 
 
 if os.path.exists(os.path.join(os.getcwd(),'encodings.pickle')):
@@ -82,7 +81,7 @@ def video_stream():
         cv2.destroyAllWindows()
 
     except Exception as ex:
-            _logger.warning(f"APPLICATION ERROR while recognizing face in camera")
+            logger.debug(f"APPLICATION ERROR while recognizing face in camera")
             return jsonify({
                 "BaseResponse":{
                             "Status":False,
@@ -137,7 +136,7 @@ def upload():
                 image = imutils.resize(cv_image, 440)
                 (height, width) = image.shape[:2]
                 image = cv2.resize(cv_image, (width, height))
-                
+
                 filename = secure_filename(file.filename)
                 path = os.path.join(os.getcwd(),'known_face')
                 if not os.path.exists(path):
@@ -157,7 +156,7 @@ def upload():
                         }
                     }), config.HTTP_200_OK)
         except Exception as ex:
-            _logger.warning(f"APPLICATION ERROR while recognizing face - {ex}")
+            logger.debug(f"APPLICATION ERROR while recognizing face - {ex}")
             return make_response(jsonify({
                 "BaseResponse":{
                             "Status":False,
