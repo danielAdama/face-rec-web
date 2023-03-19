@@ -20,14 +20,13 @@
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">
           FACE RECOGNITION
         </h1>
-        <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">To Train model make sure you label your
-          images
+        <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">To train the model make sure to enter your
+          name
           with
           respect to the
           person present
           in the
-          image, Must
-          Upload more than 2 images</p>
+          image</p>
         <form class="flex flex-col justify-center px-6">
           <div class="container">
             <div>
@@ -141,9 +140,9 @@
         formData.append("image", file);
         formData.append("name", name)
       }
-      for (const item of formData) {
-        console.log(item[0], item[1]);
-      }
+      // for (const item of formData) {
+      //   console.log(item[0], item[1]);
+      // }
 
 
       const resp = await fetch(
