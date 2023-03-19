@@ -32,9 +32,8 @@ if os.path.exists(os.path.join(os.getcwd(),'encodings.pickle')):
     with open('encodings.pickle', 'rb+') as f:
         app.config['data'] = pickle.load(f)
 
-webcam = cv2.VideoCapture(0)
-
 def video_stream():
+    webcam = cv2.VideoCapture(0)
     time.sleep(0.02)
     try:
         if (webcam.isOpened() == False):
@@ -116,6 +115,7 @@ def upload():
             config.HTTP_500_INTERNAL_SERVER_ERROR)
 
         files = request.files.getlist("image")
+        name = request.form["name"]
         try:
             for file in files:
                 fileExt = file.filename.split('.')[1].lower()
@@ -137,36 +137,17 @@ def upload():
                 image = imutils.resize(cv_image, 440)
                 (height, width) = image.shape[:2]
                 image = cv2.resize(cv_image, (width, height))
-
-                name = secure_filename(file.filename.split('.')[0].lower())
+                
                 filename = secure_filename(file.filename)
                 path = os.path.join(os.getcwd(),'known_face')
                 if not os.path.exists(path):
                     os.mkdir(path)
-
-                match = re.search(r'\d+', name)
-                if match:
-                    app.config['matchNames'].append(name.replace('_','').replace(str(match.group()),''))
-                    app.config['filenames'].append(filename)
-                    app.config['images'].append(image)
-
-                if match is None:
-                    app.config['noMatchNames'].append(name)
-                    app.config['filenames'].append(filename)
-                    app.config['images'].append(image)
                 
-                if app.config['noMatchNames'] == app.config['matchNames']:
-                    filePath = os.path.join(os.getcwd(),'known_face',app.config['noMatchNames'][0])
-                    if not os.path.exists(filePath):
-                        os.mkdir(filePath)
-                    
-                    for filename in app.config['filenames']:
-                        for i in range(len(app.config['images'])):
-                            cv2.imwrite(os.path.join(filePath, app.config['filenames'][i]), app.config['images'][i])
-                            app.config['noMatchNames'].clear()
-                            app.config['matchNames'].clear()
-                        app.config['filenames'].clear()
-                        app.config['images'].clear()
+
+                filePath = os.path.join(os.getcwd(),'known_face',name)
+                if not os.path.exists(filePath):
+                    os.mkdir(filePath)
+                cv2.imwrite(os.path.join(filePath, filename), image)
 
             face_database.face_db(path)
             return make_response(jsonify({
