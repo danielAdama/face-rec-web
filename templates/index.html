@@ -30,9 +30,14 @@
           Upload more than 2 images</p>
         <form class="flex flex-col justify-center px-6">
           <div class="container">
+            <div>
+              <label for="name" class="text-[#979DA5]">Train Name</label>
+              <input id="name-var" type='text' placeholder='Enter image name' class="border-2 border-[#EBEAED] w-72 h-10 rounded mt-4 pl-2">
+            </div>
+            <br />
             <div class="flex justify-center index">
               <!-- Input element to choose images -->
-              <input type="file" id="select-image" multiple accept="image/png,image/jpg">
+              <input type="file" id="select-image" multiple>
               <label for="select-image">
                 <?xml version="1.0" ?><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -113,14 +118,10 @@
       images.innerHTML = '';
     }
   });
-  // setTimeout(Swal.fire(
-  //   'Good job!',
-  //   'You clicked the button!',
-  //   'success'
-  // ), 2000)
 
 
-  const inputFace = document.getElementById("verify-face").addEventListener('click', (e) => {
+
+  document.getElementById("verify-face").addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = 'http://127.0.0.1:5000/live';
   });
@@ -130,16 +131,19 @@
     sendFiles();
   });
 
+  const faceName = document.getElementById("name-var");
   async function sendFiles() {
     try {
+      name = faceName.value.toLowerCase().replace(" ", "_");
       const formData = new FormData();
 
       for (const file of fileInput.files) {
         formData.append("image", file);
+        formData.append("name", name)
       }
-      // for (const item of formData) {
-      //   console.log(item[0], item[1]);
-      // }
+      for (const item of formData) {
+        console.log(item[0], item[1]);
+      }
 
 
       const resp = await fetch(
