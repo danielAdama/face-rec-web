@@ -4,6 +4,7 @@ from config import config
 import numpy as np
 import logging
 import argparse
+from flask_cors import CORS
 from dotenv import load_dotenv
 import imutils
 import boto3
@@ -20,6 +21,7 @@ import time
 
 
 app = Flask(__name__)
+CORS(app)
 handle = "my-appl"
 logger = logging.getLogger(handle)
 logger.setLevel(level=logging.DEBUG)
@@ -210,8 +212,7 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description="Face Recognition Application")
-    # parser.add_argument("-p", "--port", default=8080, type=int, help="port number")
-    # args = parser.parse_args()
-    # app.run(host='0.0.0.0', debug=True, port=args.port)
-    app.run(debug=True, port=5000)
+    parser = argparse.ArgumentParser(description="Face Recognition Application")
+    parser.add_argument("-p", "--port", default=8080, type=int, help="port number")
+    args = parser.parse_args()
+    app.run(host='0.0.0.0', debug=True, port=args.port)
