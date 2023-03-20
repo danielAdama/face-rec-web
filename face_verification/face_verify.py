@@ -90,7 +90,7 @@ class FaceRecognition(object):
                 # votes (note: in the event of an unlikely tie Python will
                 # select first entry in the dictionary)
                 name = max(self.counts, key=self.counts.get)
-                print(f"Match Found: {name}")
+                #print(f"Match Found: {name}")
 
             self.names.append(name.capitalize())
 

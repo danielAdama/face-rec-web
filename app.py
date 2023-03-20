@@ -83,7 +83,6 @@ def frame_detection(frame):
     for ((top, right, bottom, left), name) in zip(boxes, names):
         top, right, bottom, left = (int(top*r)), (int(right*r)), (int(bottom*r)), (int(left*r))
         x = top - 15 if top - 15 > 15 else top + 15
-        print(names)
         if name=='Unknown':
             cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
             cv2.rectangle(frame, (left, bottom + 25), (right, bottom), (0, 0, 255), cv2.FILLED)
