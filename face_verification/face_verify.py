@@ -21,8 +21,7 @@ class FaceRecognition(object):
         face is present in the frame.
 
     """
-    def __init__(self, image, model='hog', tolerance=0.6, data=None, match_thres=0.6):
-        self.image = image
+    def __init__(self, model='hog', tolerance=0.6, data=None, match_thres=0.6):
         self.model = model
         self.tolerance = tolerance
         self.data = data
@@ -50,7 +49,7 @@ class FaceRecognition(object):
             linear_val = 1.0 - (face_dist / (range_ * 2.0))
             return linear_val + ((1.0 - linear_val) * np.power((linear_val - 0.5) * 2, 0.2))
         
-    def faceAuth(self):
+    def faceAuth(self, image):
 
         """Function to compare known faces (encodings) from the database to the input face.
         
@@ -62,10 +61,10 @@ class FaceRecognition(object):
             names (list) : updated list of names
         """
 
-        boxes = face_recognition.face_locations(self.image, model=self.model) #cnn
-        encodings = face_recognition.face_encodings(self.image, boxes)
-        image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        boxes = face_recognition.face_locations(image, model=self.model) #cnn
+        encodings = face_recognition.face_encodings(image, boxes)
+        
         for encoding in encodings:
             # Attempt to match each face to the input image in our known face database
             matches = face_recognition.compare_faces(self.data['encodings'], encoding, self.tolerance)
