@@ -11,45 +11,25 @@ import os
 from config import config
 
 
-# try:
-#     response = s3.get_object(
-#         Bucket=AWS_BUCKET_NAME, 
-#         Key='path/to/image.jpg'
-#     )
-#     image_bytes = response['Body'].read()
-# except Exception as ex:
-#     print(ex)
-#     logger.debug(f"APPLICATION ERROR while storing images in s3 bucket - {str(ex)}")
-#     return make_response(jsonify({
-#         "BaseResponse":{
-#             "Status":False,
-#             "Message": f"Error accessing image store",
-#         }
-#     }),
-# config.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# 
-
 def face_db(image_bytes, bucket_name):
 
     path = []
     nameList = []
     fileList = []
-
+    
     s3 = boto3.client(
     "s3",
     aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
     )
 
-    remoteObjs = s3.list_objects_v2(Bucket=AWS_BUCKET_NAME)
+    remoteObjs = s3.list_objects_v2(Bucket=bucket_name)
     for obj in remoteObjs['Contents']:
-        #print(obj)
         path.append(obj['Key'])
         nameList.append(obj['Key'].split('/')[1])
         fileList.append(obj['Key'].split('/')[2])
 
-    filePath = path[0].split('/')[0]
+        
     knownEncodings = []
     knownNames = []
     flag = False
