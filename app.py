@@ -60,7 +60,7 @@ class VideoCapture:
     return self.q.get()
 
 def gen_frames():
-    camera = VideoCapture(0)
+    camera = VideoCapture(config.VIDEO)
     while True:
         time.sleep(.5)   # simulate time between events
         frame = camera.read()
