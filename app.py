@@ -64,9 +64,20 @@ class VideoCapture:
 def gen_frames():
     camera = VideoCapture(config.VIDEO)
     while True:
-        time.sleep(.5)   # simulate time between events
+        time.sleep(.2)   # simulate time between events
         frame = camera.read()
-        frame_detection(frame)
+        try:
+            frame_detection(frame)
+        except Exception as ex:
+                logger.debug(f"APPLICATION ERROR while reading webcam - {str(ex)}")
+                return make_response(jsonify({
+                    "BaseResponse":{
+                        "Status":False,
+                        "Message": f"Error reading camera",
+                    }
+                }),
+            config.HTTP_500_INTERNAL_SERVER_ERROR)
+         
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
@@ -76,7 +87,7 @@ def gen_frames():
 def frame_detection(frame):
     
     rgb = cv2.cvtColor(frame, config.COLOR)
-    rgb = imutils.resize(frame, 640)
+    rgb = imutils.resize(frame, 440)
     (h, w) = frame.shape[:2]
     r = w / rgb.shape[1]
     boxes, names, accs = faceRec.faceAuth(rgb)
@@ -91,7 +102,6 @@ def frame_detection(frame):
         else:
             cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
             for acc in accs:
-                print(name)
                 # Status box
                 cv2.rectangle(frame, (left, bottom + 25), (right, bottom), (0, 255, 0), cv2.FILLED)
                 cv2.putText(frame, f"{name} {acc*100:.2f}%", (left+30, bottom+20), config.FONT, 0.5, 
