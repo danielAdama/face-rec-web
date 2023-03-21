@@ -24,6 +24,7 @@ def face_db(image_bytes, bucket_name):
     )
 
     remoteObjs = s3.list_objects_v2(Bucket=bucket_name)
+    
     for obj in remoteObjs['Contents']:
         path.append(obj['Key'])
         nameList.append(obj['Key'].split('/')[1])

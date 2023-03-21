@@ -34,7 +34,8 @@ AWS_BUCKET_NAME = os.environ.get("AWS_BUCKET_NAME")
 if os.path.exists(os.path.join(os.getcwd(),'encodings.pickle')):
     with open('encodings.pickle', 'rb+') as f:
         data = pickle.load(f)
-faceRec = FaceRecognition(data=data)
+    
+    faceRec = FaceRecognition(data=data)
 
 class VideoCapture:
 
@@ -155,18 +156,21 @@ def upload():
                     aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
                 )
 
+                remoteObjs = s3.list_objects_v2(Bucket=AWS_BUCKET_NAME)
                 try:
                     filePath = f"known_face/{name}/{filename}"
                     remoteObjs = s3.list_objects_v2(Bucket=AWS_BUCKET_NAME)
-                    for obj in remoteObjs['Contents']:
-                        if (obj['Key'] == filePath):
-                            logger.debug(f"APPLICATION UPLOAD > The image {filename} been trained for {name.split('_')[0]}")
-                            return make_response(jsonify({
-                                "BaseResponse":{
-                                    "Status":False,
-                                    "Message":str('The image '+filename+' been trained for '+name.split('_')[0].capitalize())
-                                }
-                            }), config.HTTP_400_BAD_REQUEST)
+                    if 'Contents' in remoteObjs.keys():
+                        for obj in remoteObjs['Contents']:
+                            if (obj['Key'] == filePath):
+                                logger.debug(f"APPLICATION UPLOAD > The image {filename} been trained for {name.split('_')[0]}")
+                                return make_response(jsonify({
+                                    "BaseResponse":{
+                                        "Status":False,
+                                        "Message":str('The image '+filename+' been trained for '+name.split('_')[0].capitalize())
+                                    }
+                                }), config.HTTP_400_BAD_REQUEST)
+                            
 
                     objName = filePath
                     s3.put_object(
