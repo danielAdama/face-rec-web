@@ -6,7 +6,7 @@ RUN apt-get update -y
 RUN apt-get install -y --fix-missing \
     git \
     libboost-all-dev \
-    libx11-dev \ 
+    libx11-dev \
     libgtk-3-dev \
     build-essential \
     cmake \
@@ -23,7 +23,7 @@ RUN apt-get install -y --fix-missing \
     libjpeg-dev
 
 ## Compile Dlib
-RUN pip3 install --upgrade pip3
+# RUN pip3 install --upgrade pip3
 RUN wget http://dlib.net/files/dlib-19.9.tar.bz2 && \
     tar xvf dlib-19.9.tar.bz2 && \
     cd dlib-19.9/ && \
