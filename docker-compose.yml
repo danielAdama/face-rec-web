@@ -1,1 +1,11 @@
 version: '3.8'
+services:
+  face-recognition-app:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      -"8000:8000"
+    networks:
+      - host
+    
