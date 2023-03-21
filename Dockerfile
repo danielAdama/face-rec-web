@@ -2,7 +2,7 @@
 # RUN apt-get update && apt install -y python3-dev python3-pip python3.8.14-venv
 
 FROM nvidia/cuda:11.4.1-cudnn8-devel-ubuntu20.04
-LABEL version="1.0"
+LABEL MAINTAINER="adamadaniel321@gmail.com"
 
 
 ARG DEBIAN_FRONTEND=noninteractive
