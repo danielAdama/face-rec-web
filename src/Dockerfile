@@ -5,6 +5,9 @@ LABEL MAINTAINER="adamadaniel321@gmail.com"
 RUN apt-get update -y
 RUN apt-get install -y --fix-missing \
     git \
+    libboost-all-dev \
+    libx11-dev \ 
+    libgtk-3-dev \
     build-essential \
     cmake \
     wget \
@@ -20,9 +23,9 @@ RUN apt-get install -y --fix-missing \
     libjpeg-dev
 
 ## Compile Dlib
-COPY dlib-19.9 /root
-WORKDIR /root
-RUN cd dlib-19.9 && \
+RUN wget http://dlib.net/files/dlib-19.9.tar.bz2 && \
+    tar xvf dlib-19.9.tar.bz2 && \
+    cd dlib-19.9/ && \
     mkdir build && \
     cd build && \
     cmake .. && \
@@ -31,11 +34,11 @@ RUN cd dlib-19.9 && \
     ldconfig && \
     cd .. && \
     pkg-config --libs --cflags dlib-1 && \
-    cd dlib-19.9 && \
-    python3 setup.py install
+    python3 setup.py install --yes USE_AVX_INSTRUCTIONS --no DLIB_USE_CUDA
 
-WORKDIR /root/app
-COPY . /root/app
-RUN pip3 install -r /app/requirements.txt
+WORKDIR /app
+COPY . /app
+RUN pip3 install -r /app/requirements.txt && \
+    python3 setup.py install
 # EXPOSE 8080
 ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:8080", "app:app", "--workers=5"]
