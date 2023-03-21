@@ -20,9 +20,8 @@ RUN apt-get install -y --fix-missing \
     libjpeg-dev
 
 ## Compile Dlib
-COPY dlib-19.9.tar.bz2 /root
+COPY dlib-19.9 /root
 WORKDIR /root
-RUN tar xvf dlib-19.9.tar.bz2
 RUN cd dlib-19.9 && \
     mkdir build && \
     cd build && \
