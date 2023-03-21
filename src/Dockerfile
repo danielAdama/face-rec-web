@@ -1,9 +1,6 @@
 FROM python:3.8.16-slim-bullseye
 LABEL MAINTAINER="adamadaniel321@gmail.com"
 
-
-ARG DEBIAN_FRONTEND=noninteractive
-
 # Install dependencies
 RUN apt-get update -y
 RUN apt-get install -y --fix-missing \
@@ -39,7 +36,7 @@ RUN cd dlib-19.9 && \
     python3 setup.py install
 
 WORKDIR /root/app
-COPY . /root/app/
+COPY . /root/app
 RUN pip3 install -r /app/requirements.txt
 # EXPOSE 8080
 ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:8080", "app:app", "--workers=5"]
