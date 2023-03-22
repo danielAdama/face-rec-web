@@ -6,6 +6,9 @@ RUN apt-get update -y
 RUN apt-get install -y --fix-missing \
     git \
     libboost-all-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     libx11-dev \
     libgtk-3-dev \
     build-essential \
@@ -37,8 +40,10 @@ RUN wget http://dlib.net/files/dlib-19.9.tar.bz2 && \
     pkg-config --libs --cflags dlib-1 && \
     python3 setup.py install --yes USE_AVX_INSTRUCTIONS --no DLIB_USE_CUDA
 
+COPY requirements.txt /app/requirements.txt
 WORKDIR /app
-COPY . /app
 RUN pip3 install -r /app/requirements.txt
+
+COPY . /app
 # EXPOSE 8080
 ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:8080", "app:app", "--workers=5"]
