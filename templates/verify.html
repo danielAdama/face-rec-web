@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./../static/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <title>Train Image</title>
+  <title>Verify Image</title>
 </head>
 
 <body>
@@ -17,21 +17,21 @@
       </div>
       <div class="flex flex-col items-center justify-center pt-36">
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1052EC] drop-shadow-lg">
-          FACE RECOGNITION
+          VERIFY FACE
         </h1>
-        <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">To Train model make sure you label your
+        <p class="text-[#4B79EF] text-center px-4 lg:px-0 py-8 drop-shadow-md">To Verify model make sure you label your
           images
           with
           respect to the
           person present
           in the
           image, Must
-          Upload more than 2 images</p>
+          Upload one image</p>
         <form class="flex flex-col justify-center px-6">
           <div class="container">
             <div class="flex justify-center index">
               <!-- Input element to choose images -->
-              <input type="file" id="select-image" multiple accept="image/png,image/jpg">
+              <input type="file" id="select-image" accept="image/png,image/jpg">
               <label for="select-image">
                 <?xml version="1.0" ?><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -44,17 +44,9 @@
               <!-- It will show the total number of files selected -->
               <p><span id="total-images">0</span> File(s) Selected</p>
 
-              <!-- All images will display inside this div -->
-              <div id="images"></div>
             </div>
           </div>
           <br />
-          <div class="flex justify-center">
-            <button id="train-model"
-              class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
-              Train Model
-            </button>
-          </div>
         </form>
 
       </div>
@@ -66,13 +58,14 @@
       </div>
     </div>
     <div class="md:w-2/4 bg-[#2063EE] flex">
-      <img src="{{ url_for('static', filename='hero.svg') }}" alt="SVG Image" class="max-w-full h-auto w-full">
+      <!-- All images will display inside this div -->
+      <div id="image" class="max-w-full h-auto w-full"></div>
     </div>
   </div>
 </body>
 <script>
   const fileInput = document.getElementById('select-image');
-  const images = document.getElementById('images');
+  const image = document.getElementById('image');
   const totalImages = document.getElementById('total-images');
 
 
@@ -85,7 +78,7 @@
     totalImages.innerText = imageFiles.length;
 
     // Empty the images div
-    images.innerHTML = '';
+    image.innerHTML = '';
 
     if (imageFiles.length > 0) {
       // Loop through all the selected images
@@ -99,9 +92,9 @@
         // Access the string using reader.result inside the callback function
         reader.addEventListener('load', () => {
           // Create new <img> element and add it to the DOM
-          images.innerHTML += `
-                <div class="image_box">
-                    <img src='${reader.result}'>
+          image.innerHTML += `
+                <div class="">
+                    <img src='${reader.result}' class='w-full'>
                     <span class='image_name'>${imageFile.name}</span>
                 </div>
             `;
@@ -109,74 +102,10 @@
       }
     } else {
       // Empty the images div
-      images.innerHTML = '';
+      image.innerHTML = '';
     }
   });
-  // setTimeout(Swal.fire(
-  //   'Good job!',
-  //   'You clicked the button!',
-  //   'success'
-  // ), 2000)
 
-
-  const inputFace = document.getElementById("verify-face").addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = 'http://127.0.0.1:5000/live';
-  });
-
-  document.getElementById("train-model").addEventListener("click", (e) => {
-    e.preventDefault();
-    sendFiles();
-  });
-
-  async function sendFiles() {
-    try {
-      const formData = new FormData();
-
-      for (const file of fileInput.files) {
-        formData.append("image", file);
-      }
-      // for (const item of formData) {
-      //   console.log(item[0], item[1]);
-      // }
-
-
-      const resp = await fetch(
-        "http://127.0.0.1:5000/upload",
-        {
-          method: "POST",
-          body: formData
-        }
-      );
-      const jsn = await resp.json();
-      if (jsn.BaseResponse.Status) {
-        Swal.fire(
-          'Successful!',
-          jsn.BaseResponse.Message,
-          'success'
-        )
-      } else if (!jsn.BaseResponse.Status) {
-        Swal.fire(
-          'Failed!',
-          jsn.BaseResponse.Message,
-          'error'
-        )
-      } else {
-        Swal.fire(
-          'Ooops something went wrong!',
-          jsn.BaseResponse.Message,
-          'error'
-        )
-      }
-    }
-    catch (err) {
-      Swal.fire(
-        'Ooops something went wrong!',
-        jsn.BaseResponse.Message,
-        'error'
-      )
-    }
-  };
 </script>
 
 </html>
