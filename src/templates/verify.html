@@ -49,6 +49,10 @@
           class="text-[#2063ED] bg-white py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
           Verify Image
         </button>
+        <button id="back_to_home"
+            class="text-white bg-[#2063ED] py-4 px-8 shadow-xl mt-4 rounded-full border text-center">
+            back to home
+          </button>
       </div>
     </div>
     <div class="md:w-2/4 bg-[#2063EE] flex">
@@ -60,6 +64,10 @@
   </div>
 </body>
 <script>
+  document.getElementById("back_to_home").addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'http://localhost:8080';
+  });
   const fileInput = document.getElementById('select-image');
   const image = document.getElementById('image');
   const totalImages = document.getElementById('total-images');
@@ -76,40 +84,36 @@
     // Empty the images div
     image.innerHTML = '';
 
-    // if (imageFiles.length > 0) {
-    //   // Loop through all the selected images
-    //   for (const imageFile of imageFiles) {
-    //     const reader = new FileReader();
+    if (imageFiles.length > 0) {
+      // Loop through all the selected images
+      for (const imageFile of imageFiles) {
+        const reader = new FileReader();
 
-    //     console.log(reader)
-    //     // Convert each image file to a string
-    //     reader.readAsDataURL(imageFile);
-    //     console.log(reader)
+        // Convert each image file to a string
+        reader.readAsDataURL(imageFile);
 
-    //     // FileReader will emit the load event when the data URL is ready
-    //     // Access the string using reader.result inside the callback function
-    //     reader.addEventListener('load', () => {
-    //       // Create new <img> element and add it to the DOM
-    //       image.innerHTML += `
-    //             <div class="">
-    //                 <img src='${reader.result}' class='w-full'>
-    //                 <span class='image_name'>${imageFile.name}</span>
-    //             </div>
-    //         `;
-    //     });
-    //   }
-    // } else {
-    //   // Empty the images div
-    //   image.innerHTML = '';
-    // }
+        // FileReader will emit the load event when the data URL is ready
+        // Access the string using reader.result inside the callback function
+        reader.addEventListener('load', () => {
+          // Create new <img> element and add it to the DOM
+          image.innerHTML += `
+                <div class="">
+                    <img src='${reader.result}' class='w-full'>
+                    <span class='image_name'>${imageFile.name}</span>
+                </div>
+            `;
+        });
+      }
+    } else {
+      // Empty the images div
+      image.innerHTML = '';
+    }
   });
+  
   document.getElementById("verify-image").addEventListener("click", (e) => {
     e.preventDefault();
     sendImage();
   });
-  // const imageDiv = document.getElementById('image')
-  // const imagebox = imageDiv.querySelector('img');
-
   async function sendImage() {
     try {
       const formData = new FormData();
@@ -134,17 +138,12 @@
         byteString = jsn.BaseResponse.Data
         imageBase = byteString.split('\'')[1];
         baseEncodedImage = 'data:image/jpeg;base64,'+imageBase;
+        image.innerHTML = '';
         image.innerHTML += `
                 <div class="">
                     <img src='${baseEncodedImage}' class='w-full'>
                 </div>
             `;
-        // let reader = new FileReader();
-        // reader.addEventListener('load', () => {
-        //   imagebox.attr('src',e.target.result); 
-        //   imagebox.height(500);
-        //   imagebox.width(800);
-        // })
       };
       if (jsn.BaseResponse.Status) {
         Swal.fire(
@@ -175,7 +174,6 @@
       )
     }
   };
-
 </script>
 
 </html>

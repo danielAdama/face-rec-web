@@ -38,7 +38,9 @@ AWS_BUCKET_NAME = os.environ.get("AWS_BUCKET_NAME")
 if os.path.exists(os.path.join(os.getcwd(),'encodings.pickle')):
     with open('encodings.pickle', 'rb+') as f:
         data = pickle.load(f)
-    
+    flag = True
+
+if (flag):
     faceRec = FaceRecognition(data=data)
 
 s3 = boto3.client(
@@ -98,7 +100,7 @@ def gen_frames():
 def frame_detection(frame):
     
     rgb = cv2.cvtColor(frame, config.COLOR)
-    rgb = imutils.resize(rgb, 440)
+    rgb = imutils.resize(frame, 440)
     (h, w) = frame.shape[:2]
     r = w / rgb.shape[1]
     boxes, names, accs = faceRec.faceAuth(rgb)
@@ -106,16 +108,16 @@ def frame_detection(frame):
         top, right, bottom, left = (int(top*r)), (int(right*r)), (int(bottom*r)), (int(left*r))
         x = top - 15 if top - 15 > 15 else top + 15
         if name=='Unknown':
-            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 3)
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 4)
             cv2.rectangle(frame, (left, bottom + 25), (right, bottom), (0, 0, 255), cv2.FILLED)
-            cv2.putText(frame, name, (left+30, bottom+20), config.FONT, 1, 
+            cv2.putText(frame, name, (left+6, bottom+20), config.FONT, 0.8, 
             (255, 255, 255), 2)
         else:
-            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 3)
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 4)
             for acc in accs:
                 # Status box
-                cv2.rectangle(frame, (left, bottom + 25), (right, bottom), (0, 255, 0), cv2.FILLED)
-                cv2.putText(frame, f"{name} {acc*100:.2f}%", (left+30, bottom+20), config.FONT, 1, 
+                cv2.rectangle(frame, (left, bottom + 30), (right, bottom), (0, 255, 0), cv2.FILLED)
+                cv2.putText(frame, f"{name} {acc*100:.2f}%", (left+6, bottom+20), config.FONT, 0.8, 
                 (255, 255, 255), 2)
     return frame
 
@@ -128,10 +130,14 @@ def s3_store_cv_image(filePath: any, bytes: any, file: str) -> None:
     )
 
 def delete_s3_folder_contents(bucket_name, directory):
-    bucket = s3.Bucket(bucket_name)
-    # Iterate over all the objects in the prefix and delete them
-    for obj in bucket.objects.filter(Prefix=directory):
-        obj.delete()
+    # List all the objects in the prefix
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=directory)
+    objects = response.get('Contents', [])
+
+    # Delete all the objects in the prefix
+    if len(objects) > 0:
+        keys = [{'Key': obj['Key']} for obj in objects]
+        s3.delete_objects(Bucket=bucket_name, Delete={'Objects': keys})
 
 def verify_image(image_file):
     image_bytes = image_file.read()
@@ -175,7 +181,21 @@ def check():
         
         filename = secure_filename(file.filename)
         verified_face = verify_image(file)
-        path = f"detected_face/{filename}"
+        # Check if a train image is been passed and test to verify face
+        remoteObjs = s3.list_objects_v2(Bucket=AWS_BUCKET_NAME)
+        if 'Contents' in remoteObjs.keys():
+            for obj in remoteObjs['Contents']:
+                if (obj['Key'].split('/')[2] == filename):
+                    nameCheck = obj['Key'].split('/')[1]
+                    logger.debug(f"APPLICATION CHECK > You can not verify a trained image, the image {filename} been trained for {nameCheck}")
+                    return make_response(jsonify({
+                        "BaseResponse":{
+                            "Status":False,
+                            "Message":str('You can not verify a trained image, the image '+filename+' been trained for '+nameCheck.capitalize())
+                        }
+                    }), config.HTTP_400_BAD_REQUEST)
+                
+        path = f"detected_face/{filename}"                
         ret, buffer = cv2.imencode('.jpg', verified_face)
         byte = buffer.tobytes()
         s3_store_cv_image(path, byte, file)
@@ -188,7 +208,6 @@ def check():
         predicted_image.save(rawBytes, format="JPEG")
         rawBytes.seek(0)
         img_base64 = base64.b64encode(rawBytes.read())
-
     return make_response(jsonify({
                     "BaseResponse":{
                         "Status":True,
