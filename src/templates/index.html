@@ -124,7 +124,7 @@
 
   document.getElementById("verify-face").addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.href = 'http://3.8.56.63:8080/live';
+    window.location.href = 'http://13.50.243.189:8080/live';
   });
 
   document.getElementById("train-model").addEventListener("click", (e) => {
@@ -148,7 +148,7 @@
 
 
       const resp = await fetch(
-        "http://3.8.56.63:8080/upload",
+        "http://13.50.243.189:8080/upload",
         {
           method: "POST",
           body: formData

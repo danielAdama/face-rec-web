@@ -21,7 +21,14 @@ class FaceRecognition(object):
         face is present in the frame.
 
     """
-    def __init__(self, model='hog', tolerance=0.6, data=None, match_thres=0.6):
+    def __init__(
+        self, 
+        model='hog', 
+        tolerance=0.6, 
+        data=None, 
+        match_thres=0.6    
+        ) -> None:
+        
         self.model = model
         self.tolerance = tolerance
         self.data = data
@@ -30,7 +37,7 @@ class FaceRecognition(object):
         self.names = []
         self.counts = {}
 
-    def face_similarity_percent(self, face_dist):
+    def face_similarity_percent(self, face_dist) -> any:
         """Function to calculate the face similarity between known face and
         input face
         

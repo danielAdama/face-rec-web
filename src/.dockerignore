@@ -1,0 +1,15 @@
+face_venv
+known_face
+input_face
+image_recog.py
+video_recog.py
+# Byte-compiled / optimized / DLL files
+*_pycache_/
+*.py[cod]
+*$py.class
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
