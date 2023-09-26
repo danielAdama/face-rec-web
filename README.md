@@ -10,6 +10,21 @@ This web application is designed for face recognition and verification. It allow
 
 - **Live Streaming**: Users can access live video streaming with face recognition enabled.
 
+## Screenshots
+
+### Home Page
+
+![Screenshot from 2023-09-26 02-48-32](https://github.com/danielAdama/face-rec-web/assets/63624329/903911c9-f9d8-494d-91ec-15ee4899eb04)
+
+### Training Page
+
+![Screenshot from 2023-09-26 02-49-57](https://github.com/danielAdama/face-rec-web/assets/63624329/d4f5df9d-f982-4bca-8749-f7a080e15996)
+
+### Verification Page
+
+![Screenshot from 2023-09-26 02-51-47](https://github.com/danielAdama/face-rec-web/assets/63624329/89c06fbd-abd6-4c9e-8487-a5dcb7fc9a8e)
+![Screenshot from 2023-09-26 02-51-52](https://github.com/danielAdama/face-rec-web/assets/63624329/d5861274-b622-41eb-b7f0-6e2980f7eb8e)
+
 ## Project Structure
 
 The project is structured as follows:
@@ -18,7 +33,9 @@ The project is structured as follows:
 project-root/
 │
 ├── src/
-│   ├── app.py              # Main Flask application
+│   ├── app.py              # Main Flask application![Screenshot from 2023-09-26 02-48-32](https://github.com/danielAdama/face-rec-web/assets/63624329/ae0e24b8-a777-420c-a551-012024ba0cdf)
+![Screenshot from 2023-09-26 02-48-32](https://github.com/danielAdama/face-rec-web/assets/63624329/117500c5-8312-4726-bf82-6fd36467981a)
+
 │   ├── face_database.py    # Face recognition and database handling
 │   ├── templates/          # HTML templates
 │   ├── static/             # Static assets (CSS, images, etc.)
