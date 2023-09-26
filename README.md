@@ -33,9 +33,7 @@ The project is structured as follows:
 project-root/
 │
 ├── src/
-│   ├── app.py              # Main Flask application![Screenshot from 2023-09-26 02-48-32](https://github.com/danielAdama/face-rec-web/assets/63624329/ae0e24b8-a777-420c-a551-012024ba0cdf)
-![Screenshot from 2023-09-26 02-48-32](https://github.com/danielAdama/face-rec-web/assets/63624329/117500c5-8312-4726-bf82-6fd36467981a)
-
+│   ├── app.py              # Main Flask application
 │   ├── face_database.py    # Face recognition and database handling
 │   ├── templates/          # HTML templates
 │   ├── static/             # Static assets (CSS, images, etc.)
