@@ -110,7 +110,7 @@ To run this project locally, follow these steps:
 - Flask
 - OpenCV
 - Face Recognition Library
-- AWS (Amazon S3 for storage)
+- AWS
 - HTML/CSS
 - JavaScript (SweetAlert for pop-up notifications)
 - Docker
