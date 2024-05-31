@@ -30,13 +30,14 @@ This web application is designed for face recognition and verification. It allow
 The project is structured as follows:
 
 ```
-project-root/
+face-rec-web/
 │
 ├── src/
 │   ├── app.py              # Main Flask application
 │   ├── face_database.py    # Face recognition and database handling
 │   ├── templates/          # HTML templates
 │   ├── static/             # Static assets (CSS, images, etc.)
+│   ├── utils.py/           # Utilities
 │   
 │
 ├── docker-compose.yml      # Docker deployment configuration
