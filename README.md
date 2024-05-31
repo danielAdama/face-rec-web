@@ -143,8 +143,8 @@ The web application should now be running in a Docker container.
 
 ## Contributors
 
-- [Daniel](https://github.com/danielAdama)
-- [Simon](https://github.com/Toviarock1)
+- [Daniel](https://github.com/danielAdama) [AI & Backend Engineer]
+- [Simon](https://github.com/Toviarock1) [Front-end Engineer]
 
 ## Additional Information
 
