@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, request, make_response, jsonify, send_file
 from werkzeug.utils import secure_filename
-from utils import VideoCapture, gen_frames, frame_detection, s3_store_cv_image, delete_s3_folder_contents, verify_image
+from .utils import VideoCapture, gen_frames, frame_detection, s3_store_cv_image, delete_s3_folder_contents, verify_image
 from config import config
 import numpy as np
 import logging
